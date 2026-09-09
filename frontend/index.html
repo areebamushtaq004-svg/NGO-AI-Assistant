@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 NGO AI Assistant - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Open Sans', sans-serif; background-color: #F8F9FA; color: #2C3E50; }
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+        .hero { background: linear-gradient(135deg, #1ABC9C 0%, #27AE60 100%); color: white; text-align: center; padding: 70px 20px; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; opacity: 0.95; margin-bottom: 30px; }
+        .nav-btn { display: inline-block; padding: 14px 35px; background: white; color: #27AE60; text-decoration: none; border-radius: 50px; font-weight: 600; margin: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.3s; }
+        .nav-btn:hover { transform: translateY(-3px); background: #2C3E50; color: white; }
+        .content { max-width: 1100px; margin: 60px auto; padding: 0 20px; }
+        .section-title { text-align: center; color: #1e3c72; margin-bottom: 40px; font-size: 2.2rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-bottom: 80px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 5px solid #1ABC9C; }
+        .card h3 { color: #1e3c72; margin-bottom: 15px; font-size: 1.5rem; }
+        .card p { line-height: 1.7; color: #555; margin-bottom: 20px; }
+        .progress-container { background: #E9ECEF; border-radius: 10px; height: 12px; overflow: hidden; margin: 15px 0; }
+        .progress-bar { background: linear-gradient(90deg, #1ABC9C, #27AE60); height: 100%; }
+        .donate-btn { display: block; width: 100%; padding: 12px; background: #27AE60; color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 600; margin-top: 15px; }
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: white; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .faq-question { padding: 20px; cursor: pointer; font-weight: 600; color: #1e3c72; display: flex; justify-content: space-between; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 20px; color: #555; }
+        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 20px; }
+        footer { text-align: center; padding: 30px; background: #1e3c72; color: white; margin-top: 80px; }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>🌍 NGO AI Assistant</h1>
+        <p>Empowering communities through technology and compassion.</p>
+        <a href="chatbot.html" class="nav-btn">Chat with AI</a>
+        <a href="forms.html" class="nav-btn">Donate & Volunteer</a>
+    </div>
+
+    <div class="content">
+        <h2 class="section-title">Our Impact Campaigns</h2>
+        <div class="grid" id="campaigns-container"></div>
+
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="faq-container" id="faq-container"></div>
+    </div>
+
+    <footer>© 2026 🌍 NGO AI Assistant. All Rights Reserved.</footer>
+
+    <script>
+        // 1. Campaigns Data
+        const campaigns = [
+            { title: "🎓 Education for All", desc: "Enrolling 1,000 underprivileged children in quality schools with free books and uniforms.", raised: "3,500,000", goal: "5,000,000", percent: 70 },
+            { title: "💧 Clean Water Project", desc: "Installing RO water filtration plants in 50 remote villages to provide safe drinking water.", raised: "1,200,000", goal: "2,000,000", percent: 60 }
+        ];
+
+        document.getElementById('campaigns-container').innerHTML = campaigns.map(c => `
+            <div class="card">
+                <h3>${c.title}</h3>
+                <p>${c.desc}</p>
+                <div style="display:flex; justify-content:space-between; font-weight:600; font-size:0.9rem; color:#27AE60;">
+                    <span>Rs. ${c.raised} Raised</span>
+                    <span>Goal: Rs. ${c.goal}</span>
+                </div>
+                <div class="progress-container"><div class="progress-bar" style="width: ${c.percent}%;"></div></div>
+                <a href="forms.html#donation-section" class="donate-btn">Contribute Now</a>
+            </div>
+        `).join('');
+
+        // 2. FAQs Data
+        const faqs = [
+            { q: "How can I make a secure donation?", a: "You can donate securely via JazzCash, EasyPaisa, Bank Transfer, or Credit Card through our official form." },
+            { q: "Is my donation tax-deductible?", a: "Yes, we are a registered NGO. You will receive an official tax-exemption certificate via email." },
+            { q: "How can I become a volunteer?", a: "Simply fill out our Volunteer Registration form. Our team will contact you within 48 hours." }
+        ];
+
+        document.getElementById('faq-container').innerHTML = faqs.map((f, i) => `
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question"><span>${f.q}</span> <span>+</span></div>
+                <div class="faq-answer">${f.a}</div>
+            </div>
+        `).join('');
+    </script>
+</body>
+</html>

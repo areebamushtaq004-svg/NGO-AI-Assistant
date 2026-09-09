@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Forms - Donate, Volunteer & Contact</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS STYLING --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #F4F7F6;
+            color: #2C3E50;
+            padding: 40px 20px;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .page-header h1 { color: #27AE60; font-size: 2.5rem; }
+        .page-header p { color: #7f8c8d; margin-top: 10px; font-size: 1.1rem; }
+
+        .form-container {
+            max-width: 650px;
+            margin: 0 auto 60px auto;
+            background: #FFFFFF;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-top: 6px solid #1ABC9C;
+        }
+
+        .form-container h2 {
+            color: #27AE60;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #F4F7F6;
+            padding-bottom: 15px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495E;
+            font-size: 0.95rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            transition: border 0.3s, box-shadow 0.3s;
+            background: #FAFAFA;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #1ABC9C;
+            box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
+            background: #FFFFFF;
+        }
+
+        textarea { resize: vertical; min-height: 100px; }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #27AE60, #1ABC9C);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        /* Card Details Box */
+        #card-details {
+            background: #F8F9FA;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px dashed #1ABC9C;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: block;
+            width: fit-content;
+            margin: 0 auto;
+            text-decoration: none;
+            color: #1ABC9C;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 12px 25px;
+            border: 2px solid #1ABC9C;
+            border-radius: 25px;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .back-btn:hover { background: #1ABC9C; color: white; }
+
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <h1> Support Our Cause</h1>
+        <p>Make a difference today. Donate, Volunteer, or get in touch!</p>
+    </div>
+
+    <!-- ==========================================
+         1. PROFESSIONAL DONATION FORM
+         ========================================== -->
+    <div id="donation-section" class="form-container">
+        <h2>💸 Make a Donation</h2>
+        <form id="donationForm">
+            <h3 style="color: #1e3c72; margin-bottom: 15px; font-size: 1.1rem;">👤 Donor Information</h3>
+            
+            <div class="form-group">
+                <label>Full Name <span style="color: #e74c3c;">*</span></label>
+                <input type="text" id="d_name" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label>Email Address <span style="color: #e74c3c;">*</span></label>
+                    <input type="email" id="d_email" placeholder="example@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number <span style="color: #e74c3c;">*</span></label>
+                    <input type="tel" id="d_phone" placeholder="+92 300 1234567" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>City <span style="color: #e74c3c;">*</span></label>
+                <input type="text" id="d_city" placeholder="e.g. Karachi, Lahore" required>
+            </div>
+
+            <h3 style="color: #1e3c72; margin: 25px 0 15px 0; font-size: 1.1rem;"> Donation Details</h3>
+            
+            <div class="form-group">
+                <label>Donation Amount (PKR) <span style="color: #e74c3c;">*</span></label>
+                <input type="number" id="d_amount" placeholder="e.g. 5000" min="100" required>
+            </div>
+
+            <div class="form-group">
+                <label>Payment Method <span style="color: #e74c3c;">*</span></label>
+                <select id="d_payment_method" onchange="togglePaymentFields()" required>
+                    <option value="" disabled selected>Select Payment Method</option>
+                    <option value="JazzCash">JazzCash Mobile Account</option>
+                    <option value="EasyPaisa">EasyPaisa Mobile Account</option>
+                    <option value="Bank Transfer">Bank Transfer / IBFT</option>
+                    <option value="Credit Card">Credit / Debit Card</option>
+                </select>
+            </div>
+
+            <!-- Card Details (Hidden by default) -->
+            <div id="card-details" style="display: none;">
+                <h4 style="color: #27AE60; margin-bottom: 15px; font-size: 1rem;">💳 Card Information</h4>
+                
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" id="d_card_number" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>Expiry Date</label>
+                        <input type="text" id="d_card_expiry" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="text" id="d_card_cvv" placeholder="123" maxlength="3">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn"> Complete Secure Donation</button>
+        </form>
+    </div>
+
+    <!-- ==========================================
+         2. VOLUNTEER FORM
+         ========================================== -->
+    <div id="volunteer-section" class="form-container">
+        <h2> Volunteer Registration</h2>
+        <form id="volunteerForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="v_name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="v_email" placeholder="example@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="v_phone" placeholder="+92 300 1234567" required>
+            </div>
+            <div class="form-group">
+                <label>Your Skills</label>
+                <input type="text" id="v_skills" placeholder="e.g. Teaching, Design, Medical" required>
+            </div>
+            <button type="submit" class="submit-btn">Register as Volunteer</button>
+        </form>
+    </div>
+
+    <!-- ==========================================
+         3. CONTACT FORM
+         ========================================== -->
+    <div id="contact-section" class="form-container">
+        <h2>📩 Contact Us</h2>
+        <form id="contactForm">
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="c_name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label>Your Email</label>
+                <input type="email" id="c_email" placeholder="example@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>Your Message</label>
+                <textarea id="c_message" placeholder="Write your message here..." required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-btn">← Back to Home Page</a>
+
+        <script>
+        function togglePaymentFields() {
+            const method = document.getElementById('d_payment_method').value;
+            document.getElementById('card-details').style.display = (method === 'Credit Card') ? 'block' : 'none';
+        }
+
+        // 1. DONATION FORM
+        document.getElementById('donationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('d_name').value, email: document.getElementById('d_email').value,
+                phone: document.getElementById('d_phone').value, city: document.getElementById('d_city').value,
+                amount: document.getElementById('d_amount').value, payment_method: document.getElementById('d_payment_method').value,
+                card_number: document.getElementById('d_card_number').value, card_expiry: document.getElementById('d_card_expiry').value,
+                card_cvv: document.getElementById('d_card_cvv').value
+            };
+            
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/donate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                const result = await res.json();
+                
+                if(result.success) {
+                    const txId = 'RWT-' + Math.floor(100000 + Math.random() * 900000);
+                    showReceipt(txId, new Date().toLocaleString(), data.name, data.amount);
+                    document.getElementById('donationForm').reset();
+                    document.getElementById('card-details').style.display = 'none';
+                } else {
+                    alert("❌ Error: " + result.message); // Agar error aaye toh alert dega
+                }
+            } catch (err) { 
+                alert("⚠️ Server Error! Please make sure 'python app.py' is running in terminal."); 
+            }
+        });
+
+        // 2. VOLUNTEER FORM
+        document.getElementById('volunteerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = { name: document.getElementById('v_name').value, email: document.getElementById('v_email').value, phone: document.getElementById('v_phone').value, skills: document.getElementById('v_skills').value };
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/volunteer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                const result = await res.json();
+                if(result.success) {
+                    showSuccessModal("Registration Successful!", "Thank you for joining our mission. Our team will contact you within 48 hours.", "🤝");
+                    document.getElementById('volunteerForm').reset();
+                } else { alert("❌ Error: " + result.message); }
+            } catch (err) { alert("⚠️ Server Error! Make sure backend is running."); }
+        });
+
+        // 3. CONTACT FORM
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = { name: document.getElementById('c_name').value, email: document.getElementById('c_email').value, message: document.getElementById('c_message').value };
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                const result = await res.json();
+                if(result.success) {
+                    showSuccessModal("Message Sent!", "We have received your query. Our support team will reply shortly.", "📩");
+                    document.getElementById('contactForm').reset();
+                } else { alert("❌ Error: " + result.message); }
+            } catch (err) { 
+                // Contact form ke liye fallback popup
+                showSuccessModal("Message Sent!", "We received your message (Offline Mode).", "📩");
+                document.getElementById('contactForm').reset(); 
+            }
+        });
+
+        // --- MODAL FUNCTIONS ---
+        function showReceipt(txId, date, name, amount) {
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; z-index:1000;';
+            modal.innerHTML = `<div style="background:white; padding:35px; border-radius:15px; max-width:420px; width:90%; text-align:center; border-top: 6px solid #27AE60;">
+                <div style="font-size:3.5rem;">✅</div>
+                <h2 style="color:#27AE60;">Donation Successful!</h2>
+                <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
+                <div style="text-align:left; font-size:0.95rem;">
+                    <p><strong>Transaction ID:</strong> <span style="float:right; color:#1ABC9C;">${txId}</span></p>
+                    <p><strong>Name:</strong> <span style="float:right;">${name}</span></p>
+                    <p><strong>Amount:</strong> <span style="float:right; color:#27AE60; font-weight:bold;">PKR ${amount}</span></p>
+                    <p><strong>Date:</strong> <span style="float:right; font-size:0.85rem;">${date}</span></p>
+                </div>
+                <button onclick="this.parentElement.parentElement.remove()" style="background:#27AE60; color:white; border:none; padding:12px 30px; border-radius:25px; font-weight:bold; cursor:pointer; margin-top:20px;">Close</button>
+            </div>`;
+            document.body.appendChild(modal);
+        }
+
+        function showSuccessModal(title, message, icon) {
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; z-index:1000;';
+            modal.innerHTML = `<div style="background:white; padding:40px; border-radius:15px; max-width:400px; width:90%; text-align:center; border-top: 6px solid #1ABC9C;">
+                <div style="font-size:4rem;">${icon}</div>
+                <h2 style="color:#1e3c72;">${title}</h2>
+                <p style="color:#555; margin-top:15px; line-height:1.6;">${message}</p>
+                <button onclick="this.parentElement.parentElement.remove()" style="background:#1ABC9C; color:white; border:none; padding:12px 30px; border-radius:25px; font-weight:bold; cursor:pointer; margin-top:25px;">Close</button>
+            </div>`;
+            document.body.appendChild(modal);
+        }
+    </script>
+</body>
+</html>

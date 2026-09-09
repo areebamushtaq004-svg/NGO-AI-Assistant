@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO AI Chatbot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #F4F7F6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chatbot-container {
+            width: 400px;
+            height: 600px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #27AE60, #1ABC9C);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .chat-header h2 { font-size: 1.5rem; margin-bottom: 5px; }
+        .chat-header p { font-size: 0.85rem; opacity: 0.9; }
+
+        .chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #FAFAFA;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            padding: 12px 18px;
+            border-radius: 18px;
+            max-width: 80%;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .bot-message {
+            background-color: #1ABC9C;
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .user-message {
+            background-color: #2ECC71;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .input-area {
+            display: flex;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #eee;
+            gap: 10px;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-family: 'Open Sans', sans-serif;
+            transition: border 0.3s;
+        }
+
+        .input-area input:focus { border-color: #1ABC9C; }
+
+        .input-area button {
+            padding: 12px 25px;
+            background: #27AE60;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .input-area button:hover { background: #1ABC9C; }
+    </style>
+</head>
+<body>
+
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <h2>🤖 NGO AI Assistant</h2>
+            <p>Ask me about Donations, Volunteers & Campaigns</p>
+        </div>
+        
+        <div class="chat-box" id="chat-box">
+            <div class="message bot-message">Assalam-o-Alaikum! Main NGO AI Assistant hoon. Aap mujhse Donation, Volunteer, ya Campaigns ke baray mein puch sakte hain.</div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+    // 1. HTML elements ko select karna (Yeh sab se zaroori hai)
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+
+    // 2. Message send karne ka main function
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return; // Agar box khali hai toh ruk jao
+
+        // User ka message screen par dikhao
+        const userDiv = document.createElement('div');
+        userDiv.classList.add('message', 'user-message');
+        userDiv.textContent = message;
+        chatBox.appendChild(userDiv);
+        
+        userInput.value = ''; // Input box khali karo
+        chatBox.scrollTop = chatBox.scrollHeight; // Neeche scroll karo
+
+        // Backend se reply mangwao
+        try {
+            const response = await fetch('http://127.0.0.1:5000/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message })
+            });
+            
+            const data = await response.json();
+            
+            // Bot ka reply dikhane ke liye box banayo
+            const botDiv = document.createElement('div');
+            botDiv.classList.add('message', 'bot-message');
+            
+            // Text add karo
+            const textP = document.createElement('p');
+            textP.textContent = data.reply;
+            textP.style.margin = "0 0 5px 0";
+            textP.style.lineHeight = "1.4";
+            botDiv.appendChild(textP);
+
+            // Agar button hai toh usay add karo
+            if (data.button) {
+                const btn = document.createElement('a');
+                btn.href = data.button.url;
+                btn.textContent = data.button.text;
+                btn.target = "_blank";
+                
+                // Button ki styling
+                btn.style.display = "inline-block";
+                btn.style.backgroundColor = "#FFFFFF";
+                btn.style.color = "#27AE60";
+                btn.style.padding = "8px 15px";
+                btn.style.borderRadius = "20px";
+                btn.style.textDecoration = "none";
+                btn.style.fontWeight = "bold";
+                btn.style.marginTop = "10px";
+                btn.style.border = "1px solid #27AE60";
+                btn.style.fontSize = "0.9rem";
+                btn.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+                
+                botDiv.appendChild(btn);
+            }
+
+            chatBox.appendChild(botDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+        } catch (error) {
+            // Agar server band hai toh yeh error dikhayega
+            const errorDiv = document.createElement('div');
+            errorDiv.classList.add('message', 'bot-message');
+            errorDiv.textContent = "⚠️ Error: Backend server nahi chal raha. Terminal mein 'python app.py' chalayein.";
+            chatBox.appendChild(errorDiv);
+        }
+    }
+
+    // 3. Enter key dabane par message send karne ka function
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    }
+</script>
+</body>
+</html>

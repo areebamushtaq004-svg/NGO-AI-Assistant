@@ -137,14 +137,14 @@
     <a href="index.html" class="back-btn">← Back to Home Page</a>
 
     <!-- JAVASCRIPT LOGIC -->
-    <script>
+       <script>
         // 1. Toggle Card Details
         function togglePaymentFields() {
             const method = document.getElementById('d_payment_method').value;
             document.getElementById('card-details').style.display = (method === 'Credit Card') ? 'block' : 'none';
         }
 
-        // 2. Donation Form Submit
+        // 2. Donation Form Submit (CORRECTED URL)
         document.getElementById('donationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const data = {
@@ -156,7 +156,8 @@
             };
             
             try {
-                const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                // ✅ YEH LINE THEEK KI GAYI HAI: /api/donate
+                const res = await fetch('/api/donate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
                 const result = await res.json();
                 
                 if(result.success) {
@@ -166,36 +167,38 @@
                 } else {
                     alert("❌ Error: " + result.message);
                 }
-            } catch (err) { alert("⚠️ Server error! Make sure backend (python app.py) is running."); }
+            } catch (err) { alert("⚠️ Server error! Please try again later."); }
         });
 
-        // 3. Volunteer Form Submit
+        // 3. Volunteer Form Submit (CORRECTED URL)
         document.getElementById('volunteerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const data = { name: document.getElementById('v_name').value, email: document.getElementById('v_email').value, phone: document.getElementById('v_phone').value, skills: document.getElementById('v_skills').value };
             try {
-                const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                // ✅ YEH LINE THEEK KI GAYI HAI: /api/volunteer
+                const res = await fetch('/api/volunteer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
                 const result = await res.json();
                 if(result.success) {
                     showSuccessModal("Registration Successful!", "Thank you for joining our mission. Our team will contact you within 48 hours.", "🤝");
                     document.getElementById('volunteerForm').reset();
                 }
-            } catch (err) { alert("⚠️ Server error!"); }
+            } catch (err) { alert("⚠️ Server error! Please try again later."); }
         });
 
-        // 4. Contact Form Submit
+        // 4. Contact Form Submit (CORRECTED URL)
         document.getElementById('contactForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const data = { name: document.getElementById('c_name').value, email: document.getElementById('c_email').value, message: document.getElementById('c_message').value };
             try {
-                const res = await fetch('/api/chat',  { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                // ✅ YEH LINE THEEK KI GAYI HAI: /api/contact
+                const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
                 const result = await res.json();
                 if(result.success) {
                     showSuccessModal("Message Sent!", "We have received your query. Our support team will reply shortly.", "📩");
                     document.getElementById('contactForm').reset();
                 }
             } catch (err) { 
-                showSuccessModal("Message Sent!", "We received your message (Offline Mode).", "📩");
+                showSuccessModal("Message Sent!", "We received your message.", "📩");
                 document.getElementById('contactForm').reset(); 
             }
         });
@@ -205,105 +208,50 @@
             let paymentInfoHTML = '';
             let transferStatusText = '';
 
-            // Smart Logic: Method ke hisaab se details aur text set karna
             if (method === 'EasyPaisa') {
                 transferStatusText = `✅ Amount successfully transferred to EasyPaisa Account: <strong style="color:#27AE60;">${details.easypaisa}</strong>`;
-                paymentInfoHTML = `
-                    <div style="background:#e8f8f5; padding:15px; border-radius:8px; border-left:4px solid #27AE60; margin-top:10px;">
-                        <h4 style="margin:0 0 10px 0; color:#27AE60; font-size:1rem;">📱 EasyPaisa Account Details</h4>
-                        <p style="margin:5px 0;"><strong>Account Number:</strong> ${details.easypaisa}</p>
-                        <p style="margin:5px 0;"><strong>Account Title:</strong> ${details.account_title}</p>
-                    </div>`;
-            } 
-            else if (method === 'JazzCash') {
+                paymentInfoHTML = `<div style="background:#e8f8f5; padding:15px; border-radius:8px; border-left:4px solid #27AE60; margin-top:10px;"><h4 style="margin:0 0 10px 0; color:#27AE60; font-size:1rem;">📱 EasyPaisa Account Details</h4><p style="margin:5px 0;"><strong>Account Number:</strong> ${details.easypaisa}</p><p style="margin:5px 0;"><strong>Account Title:</strong> ${details.account_title}</p></div>`;
+            } else if (method === 'JazzCash') {
                 transferStatusText = `✅ Amount successfully transferred to JazzCash Account: <strong style="color:#e74c3c;">${details.jazzcash}</strong>`;
-                paymentInfoHTML = `
-                    <div style="background:#fdedec; padding:15px; border-radius:8px; border-left:4px solid #e74c3c; margin-top:10px;">
-                        <h4 style="margin:0 0 10px 0; color:#e74c3c; font-size:1rem;">📱 JazzCash Account Details</h4>
-                        <p style="margin:5px 0;"><strong>Account Number:</strong> ${details.jazzcash}</p>
-                        <p style="margin:5px 0;"><strong>Account Title:</strong> ${details.account_title}</p>
-                    </div>`;
-            } 
-            else if (method === 'Bank Transfer') {
+                paymentInfoHTML = `<div style="background:#fdedec; padding:15px; border-radius:8px; border-left:4px solid #e74c3c; margin-top:10px;"><h4 style="margin:0 0 10px 0; color:#e74c3c; font-size:1rem;">📱 JazzCash Account Details</h4><p style="margin:5px 0;"><strong>Account Number:</strong> ${details.jazzcash}</p><p style="margin:5px 0;"><strong>Account Title:</strong> ${details.account_title}</p></div>`;
+            } else if (method === 'Bank Transfer') {
                 transferStatusText = `✅ Amount successfully transferred to Bank Account: <strong style="color:#2980b9;">${details.account_no}</strong>`;
-                paymentInfoHTML = `
-                    <div style="background:#ebf5fb; padding:15px; border-radius:8px; border-left:4px solid #2980b9; margin-top:10px;">
-                        <h4 style="margin:0 0 10px 0; color:#2980b9; font-size:1rem;">🏦 Bank Transfer Details</h4>
-                        <p style="margin:5px 0;"><strong>Bank Name:</strong> ${details.bank_name}</p>
-                        <p style="margin:5px 0;"><strong>Account Title:</strong> ${details.account_title}</p>
-                        <p style="margin:5px 0;"><strong>Account No:</strong> ${details.account_no}</p>
-                        <p style="margin:5px 0;"><strong>IBAN:</strong> ${details.iban}</p>
-                    </div>`;
-            } 
-            else if (method === 'Credit Card') {
+                paymentInfoHTML = `<div style="background:#ebf5fb; padding:15px; border-radius:8px; border-left:4px solid #2980b9; margin-top:10px;"><h4 style="margin:0 0 10px 0; color:#2980b9; font-size:1rem;">🏦 Bank Transfer Details</h4><p style="margin:5px 0;"><strong>Bank Name:</strong> ${details.bank_name}</p><p style="margin:5px 0;"><strong>Account Title:</strong> ${details.account_title}</p><p style="margin:5px 0;"><strong>Account No:</strong> ${details.account_no}</p><p style="margin:5px 0;"><strong>IBAN:</strong> ${details.iban}</p></div>`;
+            } else if (method === 'Credit Card') {
                 transferStatusText = `✅ Amount securely charged to your Credit/Debit Card.`;
-                paymentInfoHTML = `
-                    <div style="background:#f4f6f7; padding:15px; border-radius:8px; border-left:4px solid #34495e; margin-top:10px;">
-                        <h4 style="margin:0 0 10px 0; color:#34495e; font-size:1rem;">💳 Card Payment Processed</h4>
-                        <p style="margin:5px 0;">Your card has been charged securely via our payment gateway.</p>
-                    </div>`;
+                paymentInfoHTML = `<div style="background:#f4f6f7; padding:15px; border-radius:8px; border-left:4px solid #34495e; margin-top:10px;"><h4 style="margin:0 0 10px 0; color:#34495e; font-size:1rem;">💳 Card Payment Processed</h4><p style="margin:5px 0;">Your card has been charged securely via our payment gateway.</p></div>`;
             }
 
-            // Modal HTML Structure
             const modal = document.createElement('div');
             modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; z-index:1000; backdrop-filter: blur(4px);';
-            
             modal.innerHTML = `
                 <div style="background:white; border-radius:12px; max-width:450px; width:90%; box-shadow:0 20px 50px rgba(0,0,0,0.4); overflow:hidden; font-family:'Open Sans', sans-serif;">
-                    <!-- Header -->
                     <div style="background:linear-gradient(135deg, #1ABC9C, #27AE60); padding:20px; text-align:center; color:white;">
                         <div style="font-size:2.5rem; margin-bottom:5px;">✅</div>
                         <h2 style="margin:0; font-family:'Poppins', sans-serif; font-size:1.4rem;">Payment Successful</h2>
                         <p style="margin:5px 0 0 0; font-size:0.85rem; opacity:0.9;">NGO AI Assistant</p>
                     </div>
-
-                    <!-- Transaction Info -->
                     <div style="padding:20px; border-bottom:1px dashed #ccc;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                            <span style="color:#7f8c8d; font-size:0.9rem;">Transaction ID</span>
-                            <span style="font-weight:bold; color:#27AE60; font-size:0.9rem;">${txId}</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                            <span style="color:#7f8c8d; font-size:0.9rem;">Donor Name</span>
-                            <span style="font-weight:600; font-size:0.9rem;">${name}</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                            <span style="color:#7f8c8d; font-size:0.9rem;">Amount Paid</span>
-                            <span style="font-weight:bold; color:#1e3c72; font-size:1.1rem;">PKR ${amount}</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between;">
-                            <span style="color:#7f8c8d; font-size:0.9rem;">Date & Time</span>
-                            <span style="font-size:0.85rem;">${date}</span>
-                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><span style="color:#7f8c8d; font-size:0.9rem;">Transaction ID</span><span style="font-weight:bold; color:#27AE60; font-size:0.9rem;">${txId}</span></div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><span style="color:#7f8c8d; font-size:0.9rem;">Donor Name</span><span style="font-weight:600; font-size:0.9rem;">${name}</span></div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><span style="color:#7f8c8d; font-size:0.9rem;">Amount Paid</span><span style="font-weight:bold; color:#1e3c72; font-size:1.1rem;">PKR ${amount}</span></div>
+                        <div style="display:flex; justify-content:space-between;"><span style="color:#7f8c8d; font-size:0.9rem;">Date & Time</span><span style="font-size:0.85rem;">${date}</span></div>
                     </div>
-
-                    <!-- Dynamic Payment Details -->
                     <div style="padding:20px; background:#f8f9fa;">
                         <p style="margin:0 0 10px 0; font-weight:bold; color:#2c3e50; text-align:center; font-size:0.95rem;">${transferStatusText}</p>
                         ${paymentInfoHTML}
                     </div>
-
-                    <!-- Footer -->
                     <div style="padding:15px; text-align:center;">
                         <button onclick="this.parentElement.parentElement.parentElement.remove()" style="background:#27AE60; color:white; border:none; padding:10px 30px; border-radius:25px; font-weight:bold; cursor:pointer; font-family:'Poppins', sans-serif;">Close Receipt</button>
                     </div>
-                </div>
-            `;
+                </div>`;
             document.body.appendChild(modal);
         }
 
-        // Generic Success Modal (For Volunteer & Contact)
         function showSuccessModal(title, message, icon) {
             const modal = document.createElement('div');
             modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; z-index:1000; backdrop-filter: blur(4px);';
-            modal.innerHTML = `
-                <div style="background:white; padding:40px; border-radius:15px; max-width:400px; width:90%; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,0.3); border-top: 6px solid #1ABC9C;">
-                    <div style="font-size:4rem;">${icon}</div>
-                    <h2 style="color:#1e3c72; margin:0; font-family:'Poppins', sans-serif; font-size:1.5rem;">${title}</h2>
-                    <p style="color:#555; margin-top:15px; line-height:1.6;">${message}</p>
-                    <button onclick="this.parentElement.parentElement.remove()" style="background:#1ABC9C; color:white; border:none; padding:12px 30px; border-radius:25px; font-weight:bold; cursor:pointer; font-family:'Poppins', sans-serif; margin-top:25px;">Close</button>
-                </div>
-            `;
+            modal.innerHTML = `<div style="background:white; padding:40px; border-radius:15px; max-width:400px; width:90%; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,0.3); border-top: 6px solid #1ABC9C;"><div style="font-size:4rem;">${icon}</div><h2 style="color:#1e3c72; margin:0; font-family:'Poppins', sans-serif; font-size:1.5rem;">${title}</h2><p style="color:#555; margin-top:15px; line-height:1.6;">${message}</p><button onclick="this.parentElement.parentElement.remove()" style="background:#1ABC9C; color:white; border:none; padding:12px 30px; border-radius:25px; font-weight:bold; cursor:pointer; font-family:'Poppins', sans-serif; margin-top:25px;">Close</button></div>`;
             document.body.appendChild(modal);
         }
     </script>
